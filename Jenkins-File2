@@ -1,0 +1,41 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Git_cred', url: 'https://github.com/noorwale/springboot-hello.git']]])
+                }
+            }
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+                }
+            }
+        stage('Building Docker Image') { 
+             steps {
+                sh 'docker build -t springboot:${BUILD_NUMBER} .'
+                echo "taging docker image"
+                sh 'docker tag springboot:${BUILD_NUMBER} mianrashid/springboot:${BUILD_NUMBER}'
+                }
+        }
+        stage('docker authentication') {
+            steps {
+                //script{
+                     //withDockerRegistry(credentialsId: 'Docker-Credentials', url: 'https://hub.docker.com/u/mianrashid') {
+                         sh 'docker login -u mianrashid -p Rajana4622'
+                     }
+                }
+           // }
+        //}
+        stage('pushing docker image') {
+            steps{
+                sh 'docker push mianrashid/springboot:${BUILD_NUMBER}'
+                }
+            }
+        }
+    }
+
+
+
