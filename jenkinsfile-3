@@ -1,0 +1,15 @@
+pipeline{
+    agent any
+    stages{
+        stage('checkout'){
+            steps{
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Git_cred', url: 'https://github.com/noorwale/springboot-hello.git']]])
+            }
+        }
+        stage('Build'){
+            steps{
+                sh 'mvn clean install'
+            }
+        }
+    }
+}
