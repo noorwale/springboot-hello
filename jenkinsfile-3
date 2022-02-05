@@ -24,8 +24,8 @@ pipeline {
         }
         stage('pushing Docker image to dockerhub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials ', passwordVariable: 'dockerhub-password', usernameVariable: 'dockerhub-username')]) {
-                sh 'docker login -u dockerhub-username -p dockerhub-password'
+                withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Dockerhub-pawd')]) {
+                sh 'docker login -u mianrashid -p dockerhub_pwd'
                 sh 'docker push mianrashid/springboot:${BUILD_NUMBER}'
                 }
             }
