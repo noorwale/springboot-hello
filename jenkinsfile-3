@@ -16,5 +16,11 @@ pipeline{
                sh 'docker build -t springboot:${BUILD_NUMBER} .' 
             }
         }
+        stage('tag Docker image to a repo'){
+            steps{
+            echo "taging docker image"
+                sh 'docker tag springboot:${BUILD_NUMBER} mianrashid/springboot:${BUILD_NUMBER}'
+            }
+        }
     }
 }
