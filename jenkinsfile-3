@@ -22,13 +22,5 @@ pipeline {
                 sh 'docker tag springboot:${BUILD_NUMBER} mianrashid/springboot:${BUILD_NUMBER}'
             }
         }
-        stage('pushing Docker image into dockerhub') {
-            steps {
-                withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'dcokerhub-pswd')] {
-                sh 'docker login -u mianrashid -p ${dockerhub-pswd}'
-                sh 'docker push mianrashid/springboot:${BUILD_NUMBER}'
-                }
-            }
-        }
-    }
-}
+    }  
+}    
